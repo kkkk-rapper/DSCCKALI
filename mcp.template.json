@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "kaliMcp": {
-      "command": "/Users/hanlihui/Desktop/kali/.mcp-kali/mcp-wrapper.sh",
-      "args": ["--server", "http://192.168.64.2:5000"]
+      "command": "<PROJECT_DIR>/.mcp-kali/mcp-wrapper.sh",
+      "args": ["--server", "http://<KALI_VM_IP>:5000"]
     },
     "playwright": {
       "command": "npx",

@@ -1,3 +1,7 @@
+# Local config with personal paths
+.mcp.json
+.vscode/mcp.json
+
 # Local Claude Code config (permissions, settings)
 .claude/
 
