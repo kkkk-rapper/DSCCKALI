@@ -1,0 +1,12 @@
+# Local Claude Code config (permissions, settings)
+.claude/
+
+# Playwright session data
+.playwright-mcp/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
