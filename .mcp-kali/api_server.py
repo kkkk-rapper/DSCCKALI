@@ -53,7 +53,8 @@ def api_command():
     cmd = data.get("command", "")
     if not cmd:
         return jsonify({"success": False, "stderr": "No command provided"})
-    return jsonify(run_cmd(cmd))
+    t = data.get("timeout", TIMEOUT)
+    return jsonify(run_cmd(cmd, timeout=t))
 
 
 def build_tool_cmd(tool, data):
@@ -63,7 +64,7 @@ def build_tool_cmd(tool, data):
         "gobuster": lambda d: f"gobuster {d.get('mode', 'dir')} -u {d.get('url', '')} -w {d.get('wordlist', '/usr/share/wordlists/dirb/common.txt')} {d.get('additional_args', '')}".strip(),
         "dirb": lambda d: f"dirb {d.get('url', '')} {d.get('wordlist', '/usr/share/wordlists/dirb/common.txt')} {d.get('additional_args', '')}".strip(),
         "nikto": lambda d: f"nikto -h {d.get('target', '')} {d.get('additional_args', '')}".strip(),
-        "sqlmap": lambda d: f"sqlmap -u {d.get('url', '')} {d.get('additional_args', '')} {f'--data={d[\"data\"]}' if d.get('data') else ''}".strip(),
+        "sqlmap": lambda d: f"sqlmap -u {d.get('url', '')} {d.get('additional_args', '')} {'--data=' + d['data'] if d.get('data') else ''}".strip(),
         "hydra": lambda d: f"hydra -l {d.get('username', '')} -P {d.get('password_file', '')} {d.get('additional_args', '')} {d.get('target', '')} {d.get('service', '')}".strip(),
         "john": lambda d: f"john --wordlist={d.get('wordlist', '/usr/share/wordlists/rockyou.txt')} {d.get('format_type', '')} {d.get('additional_args', '')} {d.get('hash_file', '')}".strip(),
         "metasploit": lambda d: f"msfconsole -q -x 'use {d.get('module', '')}; run; exit'",

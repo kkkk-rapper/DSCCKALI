@@ -131,7 +131,21 @@ def setup_mcp_server(kali_client: KaliToolsClient) -> FastMCP:
         Configured FastMCP instance
     """
     mcp = FastMCP("kali-mcp")
-    
+
+    @mcp.tool()
+    def execute_command(command: str, timeout: int = 120) -> Dict[str, Any]:
+        """
+        Execute any shell command on the Kali VM. Use for tools not covered by dedicated MCP tools.
+
+        Args:
+            command: The shell command to execute
+            timeout: Timeout in seconds (default 120)
+
+        Returns:
+            Command execution results with stdout, stderr, exit_code
+        """
+        return kali_client.safe_post("api/command", {"command": command, "timeout": timeout})
+
     @mcp.tool()
     def nmap_scan(target: str, scan_type: str = "-sV", ports: str = "", additional_args: str = "") -> Dict[str, Any]:
         """
